@@ -20,29 +20,210 @@ const CANVAS_CONFIG = {
 // 预设模板数据
 // ========================================
 const PRESET_TEMPLATES = {
-  note: [
+  echoRabbit: [
     {
-      id: 'note-xhs-1',
-      name: '小红书笔记-清新',
-      type: 'note',
-      style: 'xiaohongshu',
-      background: { type: 'color', value: '#ffffff' },
+      id: 'echo-rabbit-1',
+      name: 'EchoRabbit品牌介绍',
+      type: 'echoRabbit',
+      style: 'brand',
+      background: { 
+        type: 'image', 
+        value: 'assets/背景.png',
+        imageConfig: { fit: 'cover', position: 'center center', scale: 100 }
+      },
       elements: [
-        { id: 'e1', type: 'text', x: 40, y: 40, width: 1000, height: 80, scale: 1, maintainAspectRatio: false, content: '标题文字', style: { fontFamily: "'Noto Sans SC', sans-serif", fontSize: 48, fontWeight: 700, color: '#171717', textAlign: 'left', lineHeight: 1.3, letterSpacing: 0, textDecoration: 'none' } },
-        { id: 'e2', type: 'text', x: 40, y: 140, width: 1000, height: 200, scale: 1, maintainAspectRatio: false, content: '在这里输入正文内容，分享你的生活点滴...', style: { fontFamily: "'Noto Sans SC', sans-serif", fontSize: 28, fontWeight: 400, color: '#404040', textAlign: 'left', lineHeight: 1.6, letterSpacing: 0, textDecoration: 'none' } },
-        { id: 'e3', type: 'text', x: 40, y: 1360, width: 1000, height: 40, scale: 1, maintainAspectRatio: false, content: '#标签 #小红书 #生活', style: { fontFamily: "'Noto Sans SC', sans-serif", fontSize: 20, fontWeight: 400, color: '#72e3ad', textAlign: 'left', lineHeight: 1.5, letterSpacing: 0, textDecoration: 'none' } }
-      ]
-    }
-  ],
-  list: [
-    {
-      id: 'list-xhs-1',
-      name: '清单攻略-步骤',
-      type: 'list',
-      style: 'xiaohongshu',
-      background: { type: 'color', value: '#ffffff' },
-      elements: [
-        { id: 'e1', type: 'text', x: 40, y: 40, width: 1000, height: 80, scale: 1, maintainAspectRatio: false, content: '📋 必做清单', style: { fontFamily: "'Noto Sans SC', sans-serif", fontSize: 48, fontWeight: 700, color: '#171717', textAlign: 'center', lineHeight: 1.3, letterSpacing: 0, textDecoration: 'none' } }
+        // Logo头像
+        { 
+          id: 'e1', 
+          type: 'image', 
+          x: 390, 
+          y: 80, 
+          width: 300, 
+          height: 300, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_头像.png',
+          originalWidth: 300,
+          originalHeight: 300
+        },
+        // 品牌名称 - 使用Poppins字体
+        { 
+          id: 'e2', 
+          type: 'text', 
+          x: 0, 
+          y: 420, 
+          width: 1080, 
+          height: 80, 
+          scale: 1, 
+          maintainAspectRatio: false, 
+          content: 'EchoRabbit®', 
+          style: { 
+            fontFamily: "'Poppins', 'Noto Sans SC', sans-serif", 
+            fontSize: 72, 
+            fontWeight: 900, 
+            color: '#ffffff', 
+            textAlign: 'center', 
+            lineHeight: 1.2, 
+            letterSpacing: 2, 
+            textDecoration: 'none' 
+          } 
+        },
+        // Software 副标题
+        { 
+          id: 'e3', 
+          type: 'text', 
+          x: 0, 
+          y: 500, 
+          width: 1080, 
+          height: 50, 
+          scale: 1, 
+          maintainAspectRatio: false, 
+          content: 'Software', 
+          style: { 
+            fontFamily: "'Poppins', 'Noto Sans SC', sans-serif", 
+            fontSize: 48, 
+            fontWeight: 600, 
+            color: '#ffffff', 
+            textAlign: 'center', 
+            lineHeight: 1.2, 
+            letterSpacing: 4, 
+            textDecoration: 'none' 
+          } 
+        },
+        // 描述文字
+        { 
+          id: 'e4', 
+          type: 'text', 
+          x: 80, 
+          y: 620, 
+          width: 920, 
+          height: 300, 
+          scale: 1, 
+          maintainAspectRatio: false, 
+          content: '一名软件工程师，\n专门做让你省力的小工具\n完全免费，无广告', 
+          style: { 
+            fontFamily: "'Noto Sans SC', sans-serif", 
+            fontSize: 56, 
+            fontWeight: 700, 
+            color: '#ffffff', 
+            textAlign: 'center', 
+            lineHeight: 1.6, 
+            letterSpacing: 2, 
+            textDecoration: 'none' 
+          } 
+        },
+        // 装饰贴纸 - 白色云朵左上
+        { 
+          id: 'e5', 
+          type: 'sticker', 
+          x: 50, 
+          y: 200, 
+          width: 120, 
+          height: 80, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_白色云朵.png',
+          originalWidth: 120,
+          originalHeight: 80
+        },
+        // 装饰贴纸 - 白色云朵右上
+        { 
+          id: 'e6', 
+          type: 'sticker', 
+          x: 910, 
+          y: 180, 
+          width: 120, 
+          height: 80, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_白色云朵.png',
+          originalWidth: 120,
+          originalHeight: 80
+        },
+        // 装饰贴纸 - 蓝色云朵
+        { 
+          id: 'e7', 
+          type: 'sticker', 
+          x: 80, 
+          y: 950, 
+          width: 150, 
+          height: 100, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_蓝色云朵.png',
+          originalWidth: 150,
+          originalHeight: 100
+        },
+        // 装饰贴纸 - 紫色花朵右上
+        { 
+          id: 'e8', 
+          type: 'sticker', 
+          x: 880, 
+          y: 50, 
+          width: 100, 
+          height: 100, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_紫色花朵.png',
+          originalWidth: 100,
+          originalHeight: 100
+        },
+        // 装饰贴纸 - 红色花朵左下
+        { 
+          id: 'e9', 
+          type: 'sticker', 
+          x: 60, 
+          y: 1100, 
+          width: 120, 
+          height: 120, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_红色花朵.png',
+          originalWidth: 120,
+          originalHeight: 120
+        },
+        // 装饰贴纸 - 绿色花朵右下
+        { 
+          id: 'e10', 
+          type: 'sticker', 
+          x: 900, 
+          y: 1050, 
+          width: 120, 
+          height: 120, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_绿色花朵.png',
+          originalWidth: 120,
+          originalHeight: 120
+        },
+        // 装饰贴纸 - 蓝色花朵-02 左中
+        { 
+          id: 'e11', 
+          type: 'sticker', 
+          x: 30, 
+          y: 600, 
+          width: 100, 
+          height: 100, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_蓝色花朵-02.png',
+          originalWidth: 100,
+          originalHeight: 100
+        },
+        // 装饰贴纸 - 蓝色花朵-03 右中
+        { 
+          id: 'e12', 
+          type: 'sticker', 
+          x: 950, 
+          y: 750, 
+          width: 100, 
+          height: 100, 
+          scale: 1, 
+          maintainAspectRatio: true, 
+          src: 'assets/素材贴图_蓝色花朵-03.png',
+          originalWidth: 100,
+          originalHeight: 100
+        }
       ]
     }
   ],
@@ -81,7 +262,7 @@ const AppState = {
   dragOffset: { x: 0, y: 0 },
   
   // 当前标签页
-  currentTab: 'note',
+  currentTab: 'echoRabbit',
   
   // 背景类型
   bgType: 'color',
@@ -1714,14 +1895,59 @@ const TemplateManager = {
     if (!DOM.presetTemplates) return;
     
     const templates = PRESET_TEMPLATES[AppState.currentTab] || [];
-    DOM.presetTemplates.innerHTML = templates.map(t => `
+    
+    // 预览区域尺寸（根据CSS的aspect-ratio: 3/4计算）
+    const previewWidth = 120;  // 预览区域宽度
+    const previewHeight = 160; // 预览区域高度
+    
+    // 计算缩放比例，使完整卡片(1080x1440)能显示在预览区域内
+    const scaleX = previewWidth / CANVAS_CONFIG.cardWidth;
+    const scaleY = previewHeight / CANVAS_CONFIG.cardHeight;
+    const scale = Math.min(scaleX, scaleY); // 使用较小的比例确保完整显示
+    
+    DOM.presetTemplates.innerHTML = templates.map(t => {
+      // 处理背景样式
+      let bgStyle = '';
+      if (t.background.type === 'color') {
+        bgStyle = `background-color: ${t.background.value};`;
+      } else if (t.background.type === 'gradient') {
+        bgStyle = `background: ${t.background.value};`;
+      } else if (t.background.type === 'image') {
+        bgStyle = `background-image: url('${t.background.value}'); background-size: cover; background-position: center;`;
+      }
+      
+      // 计算居中的偏移量
+      const scaledWidth = CANVAS_CONFIG.cardWidth * scale;
+      const scaledHeight = CANVAS_CONFIG.cardHeight * scale;
+      const offsetX = (previewWidth - scaledWidth) / 2;
+      const offsetY = (previewHeight - scaledHeight) / 2;
+      
+      // 渲染所有元素（文字、图片、贴纸）
+      const elementsHtml = t.elements.map(e => {
+        const left = Math.round(e.x * scale + offsetX);
+        const top = Math.round(e.y * scale + offsetY);
+        const width = Math.round(e.width * scale);
+        const height = Math.round(e.height * scale);
+        
+        if (e.type === 'text') {
+          const fontSize = Math.max(6, Math.round((e.style?.fontSize || 24) * scale));
+          return `<div style="position:absolute;left:${left}px;top:${top}px;width:${width}px;height:${height}px;font-size:${fontSize}px;color:${e.style?.color || '#000'};font-weight:${e.style?.fontWeight || 400};text-align:${e.style?.textAlign || 'left'};line-height:${e.style?.lineHeight || 1.5};overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">${e.content?.substring(0, 15) || ''}</div>`;
+        } else if (e.type === 'image' || e.type === 'sticker') {
+          if (e.src) {
+            return `<img src="${e.src}" style="position:absolute;left:${left}px;top:${top}px;width:${width}px;height:${height}px;object-fit:contain;" />`;
+          }
+        }
+        return '';
+      }).join('');
+      
+      return `
       <div class="template-item" data-template-id="${t.id}">
-        <div class="template-preview" style="background: ${t.background.type === 'color' ? t.background.value : t.background.value};">
-          ${t.elements.map(e => `<div style="position:absolute;left:${e.x}px;top:${e.y}px;font-size:${e.style?.fontSize || 14}px;">${e.content?.substring(0, 10) || ''}</div>`).join('')}
+        <div class="template-preview" style="${bgStyle}; position: relative; overflow: hidden;">
+          ${elementsHtml}
         </div>
         <div class="template-name">${t.name}</div>
       </div>
-    `).join('');
+    `}).join('');
     
     // 绑定点击事件
     DOM.presetTemplates.querySelectorAll('.template-item').forEach(item => {
@@ -1887,7 +2113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   TemplateManager.init();
   
   // 加载默认模板
-  const defaultTemplate = PRESET_TEMPLATES.note[0];
+  const defaultTemplate = PRESET_TEMPLATES.echoRabbit[0];
   const card = AppState.getCurrentCard();
   if (card && defaultTemplate) {
     card.background = JSON.parse(JSON.stringify(defaultTemplate.background));
