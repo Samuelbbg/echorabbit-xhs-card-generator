@@ -731,7 +731,15 @@ const CanvasManager = {
         const img = document.createElement('img');
         img.src = element.src;
         img.alt = element.type;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
         node.appendChild(img);
+        
+        // 双击替换图片
+        node.addEventListener('dblclick', () => {
+          this.replaceImage(element);
+        });
       } else {
         node.innerHTML = `<div style="width:100%;height:100%;background:linear-gradient(45deg,#f0f0f0 25%,transparent 25%,transparent 75%,#f0f0f0 75%,#f0f0f0),linear-gradient(45deg,#f0f0f0 25%,transparent 25%,transparent 75%,#f0f0f0 75%,#f0f0f0);background-size:20px 20px;background-position:0 0,10px 10px;display:flex;align-items:center;justify-content:center;color:#999;font-size:14px;">${element.type === 'image' ? '图片' : '贴纸'}</div>`;
       }
@@ -901,17 +909,24 @@ const CanvasManager = {
     const card = AppState.getCurrentCard();
     if (!card) return;
     
+    // 图片和贴纸类型，先选择文件
+    if (type === 'image' || type === 'sticker') {
+      this.addImageElement(type);
+      return;
+    }
+    
+    // 文字元素，直接创建
     const id = 'e' + Date.now();
     const element = {
       id,
       type,
       x: 100,
       y: 100,
-      width: type === 'text' ? 300 : 200,
-      height: type === 'text' ? 100 : 200,
+      width: 300,
+      height: 100,
       scale: 1,
       rotation: 0,
-      maintainAspectRatio: type !== 'text',
+      maintainAspectRatio: false,
       zIndex: card.elements.length + 1
     };
     
@@ -932,6 +947,130 @@ const CanvasManager = {
     card.elements.push(element);
     this.createElementNode(element);
     this.selectElement(element);
+  },
+  
+  // 添加图片/贴纸元素（新机制）
+  addImageElement(type) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          // 计算图片尺寸
+          const dimensions = this.calculateImageDimensions(
+            img.naturalWidth,
+            img.naturalHeight
+          );
+          
+          // 创建元素
+          const card = AppState.getCurrentCard();
+          const id = 'e' + Date.now();
+          const element = {
+            id,
+            type,
+            x: dimensions.x,
+            y: dimensions.y,
+            width: dimensions.width,
+            height: dimensions.height,
+            originalWidth: img.naturalWidth,
+            originalHeight: img.naturalHeight,
+            scale: 1,
+            rotation: 0,
+            maintainAspectRatio: true,
+            src: event.target.result,
+            zIndex: card.elements.length + 1
+          };
+          
+          card.elements.push(element);
+          this.createElementNode(element);
+          this.selectElement(element);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    
+    input.click();
+  },
+  
+  // 计算图片尺寸（等比缩放适配卡片）
+  calculateImageDimensions(imgWidth, imgHeight) {
+    const cardWidth = CANVAS_CONFIG.cardWidth;
+    const cardHeight = CANVAS_CONFIG.cardHeight;
+    
+    let newWidth = imgWidth;
+    let newHeight = imgHeight;
+    
+    // 如果图片大于卡片，需要等比缩放
+    if (imgWidth > cardWidth || imgHeight > cardHeight) {
+      const scaleX = cardWidth / imgWidth;
+      const scaleY = cardHeight / imgHeight;
+      const scale = Math.min(scaleX, scaleY, 1); // 最大缩放比例为1（不放大）
+      
+      newWidth = imgWidth * scale;
+      newHeight = imgHeight * scale;
+    }
+    
+    // 居中位置
+    const x = (cardWidth - newWidth) / 2;
+    const y = (cardHeight - newHeight) / 2;
+    
+    return {
+      width: Math.round(newWidth),
+      height: Math.round(newHeight),
+      x: Math.round(x),
+      y: Math.round(y)
+    };
+  },
+  
+  // 替换图片（双击图片时调用）
+  replaceImage(element) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          // 更新图片源
+          element.src = event.target.result;
+          element.originalWidth = img.naturalWidth;
+          element.originalHeight = img.naturalHeight;
+          
+          // 重新计算尺寸
+          const dimensions = this.calculateImageDimensions(
+            img.naturalWidth,
+            img.naturalHeight
+          );
+          
+          // 更新元素尺寸和位置
+          element.width = dimensions.width;
+          element.height = dimensions.height;
+          element.x = dimensions.x;
+          element.y = dimensions.y;
+          
+          // 重新渲染
+          this.renderCanvas();
+          this.selectElement(element);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+    
+    input.click();
   },
   
   deleteElement() {
@@ -1519,44 +1658,6 @@ const ElementPropManager = {
     if (addTextBtn) addTextBtn.addEventListener('click', () => CanvasManager.addElement('text'));
     if (addImageBtn) addImageBtn.addEventListener('click', () => CanvasManager.addElement('image'));
     if (addStickerBtn) addStickerBtn.addEventListener('click', () => CanvasManager.addElement('sticker'));
-    
-    // 图片上传
-    const imageInput = document.getElementById('imageInput');
-    const stickerInput = document.getElementById('stickerInput');
-    
-    if (addImageBtn && imageInput) {
-      addImageBtn.addEventListener('click', () => imageInput.click());
-      imageInput.addEventListener('change', (e) => {
-        if (e.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            CanvasManager.addElement('image');
-            const card = AppState.getCurrentCard();
-            const element = card.elements[card.elements.length - 1];
-            element.src = event.target.result;
-            CanvasManager.renderCanvas();
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      });
-    }
-    
-    if (addStickerBtn && stickerInput) {
-      addStickerBtn.addEventListener('click', () => stickerInput.click());
-      stickerInput.addEventListener('change', (e) => {
-        if (e.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            CanvasManager.addElement('sticker');
-            const card = AppState.getCurrentCard();
-            const element = card.elements[card.elements.length - 1];
-            element.src = event.target.result;
-            CanvasManager.renderCanvas();
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      });
-    }
   }
 };
 
