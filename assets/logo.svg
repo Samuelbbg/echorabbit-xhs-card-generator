@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- EchoRabbit Logo Placeholder -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#72e3ad;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#grad1)" opacity="0.1"/>
+  
+  <!-- Rabbit Icon -->
+  <g transform="translate(50, 40)">
+    <!-- Ears -->
+    <ellipse cx="35" cy="30" rx="12" ry="35" fill="#72e3ad"/>
+    <ellipse cx="65" cy="30" rx="12" ry="35" fill="#72e3ad"/>
+    <ellipse cx="35" cy="35" rx="6" ry="20" fill="#a7f3d0"/>
+    <ellipse cx="65" cy="35" rx="6" ry="20" fill="#a7f3d0"/>
+    
+    <!-- Head -->
+    <circle cx="50" cy="75" r="40" fill="#72e3ad"/>
+    
+    <!-- Face -->
+    <circle cx="35" cy="70" r="5" fill="#171717"/>
+    <circle cx="65" cy="70" r="5" fill="#171717"/>
+    <ellipse cx="50" cy="85" rx="8" ry="5" fill="#171717"/>
+    
+    <!-- Cheeks -->
+    <circle cx="25" cy="80" r="6" fill="#fca5a5" opacity="0.6"/>
+    <circle cx="75" cy="80" r="6" fill="#fca5a5" opacity="0.6"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="170" font-family="Outfit, sans-serif" font-size="14" font-weight="600" text-anchor="middle" fill="#171717">EchoRabbit</text>
+</svg>
