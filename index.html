@@ -32,19 +32,26 @@
                     </svg>
                     保存模板
                 </button>
-                <button class="btn btn-primary" id="exportImage">
+                <button class="btn btn-primary" id="exportZip">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="7 10 12 15 17 10"/>
                         <line x1="12" y1="15" x2="12" y2="3"/>
                     </svg>
-                    导出图片
+                    导出 ZIP
                 </button>
             </div>
         </header>
 
         <!-- 主内容区 -->
         <main class="main">
+            <!-- 左侧面板切换按钮 -->
+            <button class="panel-toggle left" id="toggleLeftPanel" title="切换左侧面板">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+            </button>
+
             <!-- 左侧模板面板 -->
             <aside class="sidebar sidebar-left">
                 <div class="panel">
@@ -98,7 +105,7 @@
                         </button>
                     </div>
                     <div class="canvas-container" id="canvasContainer">
-                        <div class="card-canvas" id="cardCanvas" style="width: 1080px; height: 1440px; transform: scale(0.5); transform-origin: top left;">
+                        <div class="card-canvas" id="cardCanvas" style="width: 1080px; height: 1440px;">
                             <!-- 动态内容 -->
                         </div>
                     </div>
@@ -106,7 +113,19 @@
                         <span>1080 x 1440 px</span>
                         <span id="canvasSize">540 x 720</span>
                     </div>
+                    
+                    <!-- 卡片导航器 -->
+                    <div class="card-navigator" id="cardNavigator">
+                        <!-- 动态生成 -->
+                    </div>
                 </div>
+
+                <!-- 底部面板切换按钮 -->
+                <button class="panel-toggle bottom" id="toggleBottomPanel" title="切换底部面板">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 15 12 9 18 15"/>
+                    </svg>
+                </button>
 
                 <!-- 底部批量生成区 -->
                 <div class="batch-section" id="batchSection">
@@ -144,6 +163,13 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 右侧面板切换按钮 -->
+            <button class="panel-toggle right" id="toggleRightPanel" title="切换右侧面板">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </button>
 
             <!-- 右侧属性面板 -->
             <aside class="sidebar sidebar-right">
@@ -188,6 +214,38 @@
                                     <span>点击上传图片</span>
                                 </div>
                             </div>
+                            
+                            <!-- 背景图适配模式 -->
+                            <div class="prop-group">
+                                <label class="prop-label">适配模式</label>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm active" data-bg-fit="cover">覆盖</button>
+                                    <button class="btn btn-sm" data-bg-fit="contain">适应</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 背景图位置 -->
+                            <div class="prop-group" id="bgPositionGroup">
+                                <label class="prop-label">图片位置</label>
+                                <div class="position-grid">
+                                    <button class="position-btn" data-position="top left" title="左上"></button>
+                                    <button class="position-btn" data-position="top center" title="上中"></button>
+                                    <button class="position-btn" data-position="top right" title="右上"></button>
+                                    <button class="position-btn" data-position="center left" title="左中"></button>
+                                    <button class="position-btn active" data-position="center center" title="居中"></button>
+                                    <button class="position-btn" data-position="center right" title="右中"></button>
+                                    <button class="position-btn" data-position="bottom left" title="左下"></button>
+                                    <button class="position-btn" data-position="bottom center" title="下中"></button>
+                                    <button class="position-btn" data-position="bottom right" title="右下"></button>
+                                </div>
+                            </div>
+                            
+                            <!-- 背景图缩放 -->
+                            <div class="prop-group" id="bgScaleGroup">
+                                <label class="prop-label">图片缩放 <span id="bgScaleValue">100%</span></label>
+                                <input type="range" class="range-input" id="bgScale" min="50" max="200" value="100">
+                            </div>
+                            
                             <div class="prop-group">
                                 <label class="prop-label">模糊度</label>
                                 <input type="range" class="range-input" id="bgBlur" min="0" max="20" value="0">
@@ -217,6 +275,25 @@
                                 <option value="Outfit, sans-serif">Outfit</option>
                                 <option value="system-ui, sans-serif">系统默认</option>
                             </select>
+                            <div class="font-actions">
+                                <button class="btn btn-sm btn-secondary" id="importFont">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                    导入字体
+                                </button>
+                                <button class="btn btn-sm btn-secondary" id="loadSystemFonts">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                        <line x1="8" y1="21" x2="16" y2="21"/>
+                                        <line x1="12" y1="17" x2="12" y2="21"/>
+                                    </svg>
+                                    系统字体
+                                </button>
+                            </div>
+                            <input type="file" id="fontInput" accept=".ttf,.otf,.woff,.woff2" hidden>
                         </div>
 
                         <div class="prop-row">
@@ -309,14 +386,21 @@
                             </div>
                         </div>
 
-                        <div class="prop-row">
-                            <div class="prop-group">
-                                <label class="prop-label">宽度</label>
-                                <input type="number" class="number-input" id="elemWidth" min="10" max="1080">
-                            </div>
-                            <div class="prop-group">
-                                <label class="prop-label">高度</label>
-                                <input type="number" class="number-input" id="elemHeight" min="10" max="1440">
+                        <div class="prop-group">
+                            <label class="prop-label flex-between">
+                                <span>尺寸</span>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="maintainAspectRatio" checked>
+                                    <span>约束比例</span>
+                                </label>
+                            </label>
+                            <div class="prop-row">
+                                <div class="prop-group">
+                                    <input type="number" class="number-input" id="elemWidth" min="10" max="1080" placeholder="宽度">
+                                </div>
+                                <div class="prop-group">
+                                    <input type="number" class="number-input" id="elemHeight" min="10" max="1440" placeholder="高度">
+                                </div>
                             </div>
                         </div>
 
@@ -441,6 +525,8 @@
     <input type="file" id="stickerInput" accept="image/*" hidden>
 
     <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <script src="js/app.v2.js"></script>
 </body>
 </html>
