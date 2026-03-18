@@ -7,6 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Thin.otf') format('opentype'); font-weight: 100; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-ExtraLight.otf') format('opentype'); font-weight: 200; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Light.otf') format('opentype'); font-weight: 300; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Regular.otf') format('opentype'); font-weight: 400; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Medium.otf') format('opentype'); font-weight: 500; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-SemiBold.otf') format('opentype'); font-weight: 600; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Bold.otf') format('opentype'); font-weight: 700; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-ExtraBold.otf') format('opentype'); font-weight: 800; }
+        @font-face { font-family: 'Poppins'; src: url('fonts/poppins/Poppins-Black.otf') format('opentype'); font-weight: 900; }
+    </style>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
@@ -16,7 +27,7 @@
         <header class="header">
             <div class="logo">
                 <img src="assets/logo.svg" alt="EchoRabbit" onerror="this.style.display='none'">
-                <span class="logo-text">EchoRabbit 卡片生成器</span>
+                <span class="logo-text">EchoRabbit® 卡片生成器</span>
             </div>
             <div class="header-actions">
                 <button class="btn btn-icon" id="themeToggle" title="切换主题">
@@ -56,12 +67,12 @@
             <!-- 左侧模板面板 -->
             <aside class="sidebar sidebar-left">
                 <div class="panel">
-                    <h3 class="panel-title">📁 模板选择</h3>
+                    <h3 class="panel-title"><img src="assets/模板.png" alt="模板" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">模板选择</h3>
                     
                     <div class="template-section">
                         <h4 class="section-title">预设模板</h4>
                         <div class="template-tabs">
-                            <button class="tab-btn active" data-tab="echoRabbit">EchoRabbit</button>
+                            <button class="tab-btn active" data-tab="echoRabbit">森系类</button>
                             <button class="tab-btn" data-tab="quote">语录类</button>
                         </div>
                         <div class="template-grid" id="presetTemplates">
@@ -174,7 +185,7 @@
             <!-- 右侧属性面板 -->
             <aside class="sidebar sidebar-right">
                 <div class="panel">
-                    <h3 class="panel-title">🎨 属性编辑</h3>
+                    <h3 class="panel-title"><img src="assets/图斑属性编辑.png" alt="属性编辑" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">属性编辑</h3>
                     
                     <!-- 背景设置 -->
                     <div class="prop-section">
@@ -270,6 +281,7 @@
                         <div class="prop-group" id="fontFamilyGroup">
                             <label class="prop-label">字体</label>
                             <select class="select-input" id="fontFamily">
+                                <option value="'Poppins', sans-serif">Poppins</option>
                                 <option value="'Noto Sans SC', sans-serif">思源黑体</option>
                                 <option value="'Noto Serif SC', serif">思源宋体</option>
                                 <option value="Outfit, sans-serif">Outfit</option>
@@ -304,10 +316,15 @@
                             <div class="prop-group">
                                 <label class="prop-label">字重</label>
                                 <select class="select-input" id="fontWeight">
-                                    <option value="300">细体</option>
-                                    <option value="400" selected>常规</option>
-                                    <option value="500">中等</option>
-                                    <option value="700">粗体</option>
+                                    <option value="100">100 Thin</option>
+                                    <option value="200">200 ExtraLight</option>
+                                    <option value="300">300 Light</option>
+                                    <option value="400" selected>400 Regular</option>
+                                    <option value="500">500 Medium</option>
+                                    <option value="600">600 SemiBold</option>
+                                    <option value="700">700 Bold</option>
+                                    <option value="800">800 ExtraBold</option>
+                                    <option value="900">900 Black</option>
                                 </select>
                             </div>
                         </div>

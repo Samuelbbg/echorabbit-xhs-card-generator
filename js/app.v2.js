@@ -1011,6 +1011,11 @@ const CanvasManager = {
     if (DOM.elemHeight) DOM.elemHeight.value = element.height;
     if (DOM.rotation) DOM.rotation.value = element.rotation || 0;
     if (DOM.rotationValue) DOM.rotationValue.textContent = (element.rotation || 0) + '°';
+    
+    // 根据字体更新字重选项
+    if (isText && element.style && element.style.fontFamily) {
+      ElementPropManager.updateFontWeightOptions(element.style.fontFamily);
+    }
   },
   
   startResize(e, element, handle) {
@@ -1700,13 +1705,70 @@ const ElementPropManager = {
     // 字体
     if (DOM.fontFamily) {
       DOM.fontFamily.addEventListener('change', (e) => {
+        const selectedFont = e.target.value;
+        
+        // 更新字重选项
+        this.updateFontWeightOptions(selectedFont);
+        
         if (AppState.selectedElement && AppState.selectedElement.type === 'text') {
-          AppState.selectedElement.style.fontFamily = e.target.value;
+          AppState.selectedElement.style.fontFamily = selectedFont;
           const node = DOM.cardCanvas.querySelector(`[data-element-id="${AppState.selectedElement.id}"]`);
-          if (node) node.style.fontFamily = e.target.value;
+          if (node) node.style.fontFamily = selectedFont;
         }
       });
     }
+    
+    // 根据字体更新字重选项
+    this.updateFontWeightOptions = (fontFamily) => {
+      if (!DOM.fontWeight) return;
+      
+      const isPoppins = fontFamily && fontFamily.includes('Poppins');
+      const currentValue = DOM.fontWeight.value;
+      
+      // 清空现有选项
+      DOM.fontWeight.innerHTML = '';
+      
+      if (isPoppins) {
+        // Poppins 字体 - 9级字重
+        const weights = [
+          { value: 100, label: '100 Thin' },
+          { value: 200, label: '200 ExtraLight' },
+          { value: 300, label: '300 Light' },
+          { value: 400, label: '400 Regular' },
+          { value: 500, label: '500 Medium' },
+          { value: 600, label: '600 SemiBold' },
+          { value: 700, label: '700 Bold' },
+          { value: 800, label: '800 ExtraBold' },
+          { value: 900, label: '900 Black' }
+        ];
+        weights.forEach(w => {
+          const option = document.createElement('option');
+          option.value = w.value;
+          option.textContent = w.label;
+          if (w.value == currentValue) option.selected = true;
+          DOM.fontWeight.appendChild(option);
+        });
+      } else {
+        // 其他字体 - 4级字重
+        const weights = [
+          { value: 300, label: '细体' },
+          { value: 400, label: '常规' },
+          { value: 500, label: '中等' },
+          { value: 700, label: '粗体' }
+        ];
+        weights.forEach(w => {
+          const option = document.createElement('option');
+          option.value = w.value;
+          option.textContent = w.label;
+          // 映射到最接近的字重
+          const currentNum = parseInt(currentValue);
+          if (w.value === 400 || (currentNum <= w.value && !option.selected)) {
+            option.selected = true;
+          }
+          DOM.fontWeight.appendChild(option);
+        });
+      }
+    };
     
     // 字号
     if (DOM.fontSize) {

@@ -18,6 +18,7 @@
   --chart-5: #10b981;
   --popover: #fcfcfc;
   --primary: #72e3ad;
+  --logo: #006934;
   --sidebar: #fcfcfc;
   --font-mono: monospace;
   --font-sans: 'Outfit', 'Noto Sans SC', sans-serif;
@@ -66,6 +67,7 @@
   --chart-5: #2dd4bf;
   --popover: #242424;
   --primary: #006239;
+  --logo: #006934;
   --sidebar: #121212;
   --secondary: #242424;
   --background: #121212;
@@ -141,8 +143,9 @@ body {
 
 .logo-text {
   font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--foreground);
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  color: var(--logo);
   letter-spacing: var(--letter-spacing);
 }
 
