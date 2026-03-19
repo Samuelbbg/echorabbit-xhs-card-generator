@@ -34,18 +34,18 @@
 
 直接访问 GitHub Pages 部署的在线版本：
 
-👉 **[点击使用在线版](https://你的用户名.github.io/RedBookV1/)**
+👉 **[点击使用在线版](https://samuelbbg.github.io/echorabbit-xhs-card-generator/)**
 
 ### 方式二：本地使用
 
 1. 克隆仓库
 ```bash
-git clone https://github.com/你的用户名/RedBookV1.git
+git clone https://github.com/Samuelbbg/echorabbit-xhs-card-generator.git
 ```
 
 2. 进入项目目录
 ```bash
-cd RedBookV1
+cd echorabbit-xhs-card-generator
 ```
 
 3. 用浏览器打开 `index.html` 即可使用
@@ -134,5 +134,5 @@ MIT License © 2024 EchoRabbit Software
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/你的用户名">EchoRabbit</a>
+  Made with ❤️ by <a href="https://github.com/Samuelbbg">EchoRabbit</a>
 </p>
